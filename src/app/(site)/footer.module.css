@@ -1,0 +1,100 @@
+.footer {
+  background: var(--footer);
+  color: var(--white);
+  max-width: none;
+  overflow: hidden;
+  padding: 0;
+}
+
+.contact {
+  background: transparent;
+  border-bottom: 1px solid rgba(248, 246, 240, .34);
+  color: var(--white);
+  padding-bottom: 4rem;
+}
+
+.contact h2 { color: var(--white); }
+
+.contact address,
+.contact :global(.contact-details div) {
+  border-color: rgba(248, 246, 240, .34);
+}
+
+.contact :global(.contact-lower) {
+  border-color: rgba(248, 246, 240, .34);
+}
+
+.contact :global(.button) {
+  background: var(--cream);
+  border-color: var(--white);
+  color: var(--red);
+}
+
+.contact :global(.button):hover {
+  background: transparent;
+  color: var(--white);
+}
+
+.content { padding-top: 4rem; }
+
+.details :global(div > span) { color: var(--white); }
+
+.primaryDetails {
+  align-self: start;
+  justify-content: flex-start;
+}
+
+.primaryDetails > span {
+  color: var(--white) !important;
+  font-family: var(--sans);
+  font-size: clamp(2rem, 3.5vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: .86;
+  max-width: 7ch;
+}
+
+.hoursLabel { margin-top: 1.5rem; }
+
+.contactDetails { align-items: flex-start; }
+
+.booking {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #fff;
+  border-radius: 999px;
+  color: var(--red);
+  display: inline-flex;
+  gap: .6rem;
+  margin-top: .45rem;
+  padding: .6rem .8rem;
+  transition: background .2s ease, border-color .2s ease;
+  width: fit-content;
+}
+
+.booking:hover { background: var(--cream); border-color: var(--white); }
+.booking:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+
+.logo {
+  display: block;
+  height: clamp(85px, 18vw, 340px);
+  margin: clamp(5rem, 10vw, 10rem) 0 0;
+  max-width: none;
+  object-fit: contain;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.logoImage {
+  display: block;
+  height: auto;
+  transform: translateY(-30%);
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .contact { padding-bottom: 3rem; }
+  .content { padding-top: 3rem; }
+  .logo { height: clamp(60px, 18vw, 140px); margin-left: 0; margin-top: 4rem; width: 100%; }
+}

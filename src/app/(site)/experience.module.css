@@ -1,0 +1,147 @@
+.experience {
+  background: #fff;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+
+.scene {
+  background: #fff;
+  display: grid;
+  height: 100svh;
+  isolation: isolate;
+  overflow: hidden;
+  place-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.copy {
+  color: var(--red);
+  font-family: var(--serif);
+  position: relative;
+  text-align: center;
+  width: min(50vw, 700px);
+  z-index: 1;
+}
+
+.heading {
+  font-size: clamp(2rem, 2.7vw, 3.25rem);
+  font-weight: 600;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+  margin: 0 0 1.6rem;
+  scroll-margin-top: -30svh;
+}
+
+.statement {
+  font-size: var(--body-size);
+  letter-spacing: -.01em;
+  line-height: 1.6;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.statement span { display: inline-block; }
+.statement p { margin: 0; }
+.statement p + p { margin-top: .8em; }
+
+.photoField {
+  inset: 0;
+  perspective: 250svh;
+  perspective-origin: 50% 50%;
+  pointer-events: none;
+  position: absolute;
+}
+
+.item {
+  position: absolute;
+  will-change: transform, opacity, filter;
+}
+
+.depthLayer {
+  --parallax-x: 0px;
+  --parallax-y: 0px;
+  border-radius: 3px;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  transform: translate3d(var(--parallax-x), var(--parallax-y), 0);
+  transition: transform .6s cubic-bezier(.22, 1, .36, 1);
+  width: 100%;
+}
+
+.depthLayer img { object-fit: cover; }
+
+.one {
+  aspect-ratio: 646 / 865;
+  left: 2vmax;
+  top: 0;
+  width: 12.5vmax;
+  z-index: 6;
+}
+
+.two {
+  aspect-ratio: 2 / 3;
+  right: -6vmax;
+  top: 15vmax;
+  width: 20vmax;
+  z-index: 5;
+}
+
+.three {
+  aspect-ratio: 501 / 515;
+  left: -8vmax;
+  top: 4vmax;
+  width: 20vmax;
+  z-index: 4;
+}
+
+.four {
+  aspect-ratio: 536 / 781;
+  bottom: -10vmax;
+  left: -.8vmax;
+  width: 15vmax;
+  z-index: 3;
+}
+
+.five {
+  aspect-ratio: 845 / 591;
+  right: -4vmax;
+  top: 2vmax;
+  width: 20vmax;
+  z-index: 2;
+}
+
+.six {
+  aspect-ratio: 561 / 830;
+  right: -2.4vmax;
+  top: 10vmax;
+  width: 12.5vmax;
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .scene { height: 100svh; }
+  .photoField { opacity: .65; }
+  .copy { width: calc(100% - 3rem); }
+  .heading { font-size: 2.2rem; margin-bottom: 1.25rem; scroll-margin-top: 30svh; }
+  .statement { font-size: var(--body-size); line-height: 1.55; }
+  .item { will-change: auto; }
+  .one { left: 9%; top: 4%; width: 19vw; }
+  .two { right: 5%; top: 6%; width: 23vw; }
+  .three { left: 22%; top: 12%; width: 17vw; }
+  .four { bottom: 5%; left: 10%; width: 19vw; }
+  .five { right: 12%; top: auto; bottom: 7%; width: 24vw; }
+  .six { right: 6%; top: auto; bottom: 16%; width: 15vw; }
+}
+
+@media (max-height: 700px) {
+  .heading { font-size: 1.8rem; margin-bottom: 1rem; }
+  .statement { font-size: 1rem; line-height: 1.35; }
+  .statement p + p { margin-top: .6em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item { opacity: .3; will-change: auto; }
+  .depthLayer { transform: none; transition: none; }
+}

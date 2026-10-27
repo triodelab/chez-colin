@@ -1,0 +1,15 @@
+node_modules/
+.next/
+.env*
+!.env.example
+*.db
+*.db-shm
+*.db-wal
+media/
+*.tsbuildinfo
+.DS_Store
+.vercel/
+*.log
+coverage/
+playwright-report/
+test-results/
