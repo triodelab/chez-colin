@@ -7,6 +7,7 @@ a { color: inherit; text-decoration: none; }
 button,input,select,textarea { font-family: inherit; }
 .shell { margin-inline: auto; max-width: 1600px; padding-inline: 3.7vw; }
 svg { fill: none; height: 1.05em; stroke: currentColor; stroke-linecap: square; stroke-width: 1.5; width: 1.05em; }
+.arrow-icon { display: block; flex-shrink: 0; }
 .cover { object-fit: cover; }
 .section-index { font-family: var(--sans); font-size: .66rem; letter-spacing: .16em; margin: 0; text-transform: uppercase; }
 

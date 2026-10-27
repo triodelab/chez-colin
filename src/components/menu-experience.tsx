@@ -5,6 +5,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { ArrowIcon } from './arrow-icon'
 import styles from './menu-zoom.module.css'
 
 const menus = [
@@ -65,7 +66,7 @@ export function MenuExperience({ giftCardUrl }: { giftCardUrl: string }) {
             <h2 id="menu-title">Vår meny</h2>
             <p>Rett frem, gjennomført og alltid med rom for en god flaske vin.</p>
           </div>
-          <a aria-label="Kjøp et gavekort til en fransk aften hos Chez Colin" className="menu-giftcard" href={giftCardUrl} rel="noreferrer" target="_blank">Kjøp gavekort <span aria-hidden="true">↗</span></a>
+          <a aria-label="Kjøp et gavekort til en fransk aften hos Chez Colin" className="menu-giftcard" href={giftCardUrl} rel="noreferrer" target="_blank">Kjøp gavekort <ArrowIcon /></a>
         </div>
         <div className={styles.previewStage}>
           <button
@@ -115,7 +116,7 @@ export function MenuExperience({ giftCardUrl }: { giftCardUrl: string }) {
             <header className={styles.toolbar}>
               <h3 aria-atomic="true" aria-live="polite" id="menu-zoom-title">{menu.title}</h3>
               <div className={styles.actions}>
-                <a href={menu.document} rel="noreferrer" target="_blank">Åpne PDF <span aria-hidden="true">↗</span></a>
+                <a href={menu.document} rel="noreferrer" target="_blank">Åpne PDF <ArrowIcon /></a>
                 <button aria-pressed={isZoomed} className={styles.zoomControl} onClick={() => setIsZoomed(current => !current)} type="button">{isZoomed ? 'Tilpass' : 'Zoom inn'}</button>
                 <button autoFocus onClick={() => dialogRef.current?.close()} type="button">Lukk <span aria-hidden="true">×</span></button>
               </div>
@@ -126,9 +127,9 @@ export function MenuExperience({ giftCardUrl }: { giftCardUrl: string }) {
               </div>
             </div>
             <nav aria-label="Bla mellom menyer" className={styles.navigation}>
-              <button aria-label={`Forrige meny: ${menus[(selected - 1 + menus.length) % menus.length].title}`} onClick={() => changeMenu(-1)} type="button"><span aria-hidden="true">←</span> Forrige meny</button>
+              <button aria-label={`Forrige meny: ${menus[(selected - 1 + menus.length) % menus.length].title}`} onClick={() => changeMenu(-1)} type="button"><ArrowIcon direction="left" /> Forrige meny</button>
               <span aria-label={`Meny ${selected + 1} av ${menus.length}`}>{String(selected + 1).padStart(2, '0')} / {String(menus.length).padStart(2, '0')}</span>
-              <button aria-label={`Neste meny: ${menus[(selected + 1) % menus.length].title}`} onClick={() => changeMenu(1)} type="button">Neste meny <span aria-hidden="true">→</span></button>
+              <button aria-label={`Neste meny: ${menus[(selected + 1) % menus.length].title}`} onClick={() => changeMenu(1)} type="button">Neste meny <ArrowIcon direction="right" /></button>
             </nav>
           </div>
         ) : null}

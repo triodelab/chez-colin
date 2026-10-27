@@ -51,7 +51,6 @@ export function RestaurantExperience({ photoSources }: RestaurantExperienceProps
       const photos = gsap.utils.toArray<HTMLElement>('[data-restaurant-photo]', scene)
       const title = scene.querySelector('h2')
       const text = scene.querySelectorAll(`.${styles.statement} span`)
-      const copy = scene.querySelector(`.${styles.copy}`)
       const layers = photos.map(photo => photo.querySelector<HTMLElement>('[data-depth]'))
       const height = () => scene.offsetHeight
 
@@ -78,8 +77,8 @@ export function RestaurantExperience({ photoSources }: RestaurantExperienceProps
           trigger: section,
           pin: scene,
           start: 'top top',
-          end: () => `+=${height() * 1.2}`,
-          scrub: 0.4,
+          end: () => `+=${height() * .5}`,
+          scrub: 0.25,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: trigger => { photoTimeline.invalidate().time(.5 + trigger.progress * 1.5) },
@@ -97,7 +96,6 @@ export function RestaurantExperience({ photoSources }: RestaurantExperienceProps
           stagger: { amount: .1 },
           ease: 'power2.out',
         }, .05)
-        .fromTo(copy, { opacity: 1, y: 0 }, { opacity: 0, y: -16, duration: .18, immediateRender: false }, 1.32)
 
       // Pointer movement uses a separate layer from the scroll transforms.
       const moveObjects = (event: PointerEvent) => {

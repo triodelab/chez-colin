@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import { ArrowIcon } from './arrow-icon'
 import styles from './press-reviews.module.css'
 
 const reviews = [
@@ -187,7 +188,7 @@ export function PressReviews() {
                       <div className={styles.attribution}>
                         <img alt="" className={styles.logo} decoding="async" height={48} loading="lazy" src={`https://www.google.com/s2/favicons?domain=${review.domain}&sz=128`} width={48} />
                         <span><strong>{review.outlet}</strong><small>{review.date}</small></span>
-                        <span aria-hidden="true" className={styles.arrow}>↗</span>
+                        <ArrowIcon className={styles.arrow} />
                       </div>
                     </a>
                   </div>

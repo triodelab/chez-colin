@@ -6,6 +6,7 @@ import { PressReviews } from '@/components/press-reviews'
 import { RestaurantExperience } from '@/components/restaurant-experience'
 import { RestaurantLink } from '@/components/restaurant-link'
 import { restaurantPhotos } from '@/content/restaurant-photos'
+import { ArrowIcon } from '@/components/arrow-icon'
 import footerStyles from './footer.module.css'
 import bookingStyles from './booking.module.css'
 
@@ -48,6 +49,7 @@ export default async function Home() {
   }
 
   const heroImage = source(images.heroImage, '/images/restaurant.jpg')
+  const [emailName, emailDomain] = content.email.split('@')
   return (
     <main>
       <section id="top" className="club-hero">
@@ -55,12 +57,12 @@ export default async function Home() {
         <div className="club-hero-content">
           <header className="club-header">
             <a className="brand" href="#top" aria-label="Chez Colin forside"><Image src="/images/chez-colin-logo.png" alt="Chez Colin" width={150} height={73} priority /></a>
-            <RestaurantLink className="header-about">Om oss <Arrow /></RestaurantLink>
+            <RestaurantLink className="header-about">Om oss <ArrowIcon /></RestaurantLink>
           </header>
           <div className="club-hero-copy">
             <p className="club-eyebrow">Fredensborg, Oslo</p>
             <h1>litt Paris.<br /><em>midt i Oslo.</em></h1>
-            <a className="hero-booking" href={content.bookingUrl} target="_blank" rel="noreferrer">Bestill bord <Arrow /></a>
+            <a className="hero-booking" href={content.bookingUrl} target="_blank" rel="noreferrer">Bestill bord <ArrowIcon /></a>
           </div>
           <div className="club-hero-bottom">
             <nav aria-label="Hovedmeny">
@@ -88,7 +90,7 @@ export default async function Home() {
               <p>Fra 1. november åpner vi kl. 16.00 og i desember holder vi i tillegg åpent de 3 siste mandagene før jul. 7., 14. og 21. desember.</p>
               <p>Siste åpningsdag er 22. desember, før vi åpner igjen 6. januar.</p>
             </div>
-            <a className={`booking-button ${bookingStyles.button}`} href={content.bookingUrl} target="_blank" rel="noreferrer">Bestill bord <Arrow /></a>
+            <a className={`booking-button ${bookingStyles.button}`} href={content.bookingUrl} target="_blank" rel="noreferrer">Bestill bord <ArrowIcon /></a>
             <p className={bookingStyles.groupNote}>Hvis du ønsker bord for flere enn 7 personer gjelder en felles meny, send mail til <a href={`mailto:${content.email}`}>{content.email}</a></p>
           </div>
           <section aria-labelledby="opening-hours-title" className={bookingStyles.hoursCard}>
@@ -100,7 +102,7 @@ export default async function Home() {
               <div><dt>Tirsdag–søndag</dt><dd>fra 17:00</dd></div>
               <div className={bookingStyles.englishHours} lang="en"><dt>Tuesday–Sunday</dt><dd>from 5 pm</dd></div>
             </dl>
-            <a className={bookingStyles.menuLink} href="#meny">Meny og vinkart <Arrow /></a>
+            <a className={bookingStyles.menuLink} href="#meny">Meny og vinkart <ArrowIcon /></a>
             <div className={bookingStyles.reviews}>
               <p className={bookingStyles.reviewsLabel}>Les gjestenes anmeldelser</p>
               <div className={bookingStyles.reviewLinks}>
@@ -112,7 +114,7 @@ export default async function Home() {
                   target="_blank"
                 >
                   <span className={bookingStyles.reviewBrand}><Image alt="" src="/images/brands/tripadvisor.svg" width={96} height={15} /></span>
-                  <Arrow />
+                  <ArrowIcon />
                   <ReviewRating value={4.4} provider="Tripadvisor" />
                 </a>
                 <a
@@ -123,7 +125,7 @@ export default async function Home() {
                   target="_blank"
                 >
                   <span className={bookingStyles.reviewBrand}><Image alt="" src="/images/brands/google.png" width={20} height={20} /><span>Google</span></span>
-                  <Arrow />
+                  <ArrowIcon />
                   <ReviewRating value={4.7} provider="Google" />
                 </a>
               </div>
@@ -139,7 +141,7 @@ export default async function Home() {
               <span>Vises på Fredensborg</span>
             </div>
             <div><span>Følg oss</span><a href="https://www.facebook.com/ChezColin" target="_blank" rel="noreferrer">Facebook</a><a href={content.giftCardUrl} target="_blank" rel="noreferrer">Gavekort</a><span className={footerStyles.hoursLabel}>Åpningstider</span><p>{content.openingHours}</p></div>
-            <div className={footerStyles.contactDetails}><span>Kontakt</span><address>{content.address}</address><a href={`tel:${content.phone.replaceAll(' ', '')}`}>{content.phone}</a><a href={`mailto:${content.email}`}>{content.email}</a><a className={footerStyles.booking} href={`mailto:${content.email}`}>Kontakt oss <Arrow /></a></div>
+            <div className={footerStyles.contactDetails}><span>Kontakt</span><address>{content.address}</address><a href={`tel:${content.phone.replaceAll(' ', '')}`}>{content.phone}</a><a href={`mailto:${content.email}`}>{emailName}<wbr />@{emailDomain}</a><a className={footerStyles.booking} href={`mailto:${content.email}`}>Kontakt oss <ArrowIcon /></a></div>
           </div>
           <div aria-label="Chez Colin" className={`footer-logo ${footerStyles.logo}`}>
             <Image className={footerStyles.logoImage} src="/images/chez-colin-logo-white.png" alt="" width={1650} height={800} />
@@ -163,5 +165,3 @@ function ReviewRating({ value, provider }: { value: number; provider: string }) 
     </span>
   )
 }
-
-function Arrow() { return <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19 19 5M9 5h10v10" /></svg> }
