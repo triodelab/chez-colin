@@ -48,12 +48,12 @@ export default async function Home() {
     // The first local render intentionally works before Payload has been initialized.
   }
 
-  const heroImage = source(images.heroImage, '/images/restaurant.jpg')
+  const heroImage = source(images.heroImage, '/images/restaurant-sign-ai.webp')
   const [emailName, emailDomain] = content.email.split('@')
   return (
     <main>
       <section id="top" className="club-hero">
-        <div className="club-hero-image"><Image className="cover" src={heroImage} alt="Chez Colins skilt på Fredensborg" fill priority sizes="(max-width: 900px) 100vw, 40vw" /></div>
+        <div className="club-hero-image"><Image className="cover" src={heroImage} alt="Chez Colins skilt på Fredensborg" fill preload quality={90} sizes="(max-width: 900px) 100vw, max(480px, 40vw, 66.67svh)" /></div>
         <div className="club-hero-content">
           <header className="club-header">
             <a className="brand" href="#top" aria-label="Chez Colin forside"><Image src="/images/chez-colin-logo.png" alt="Chez Colin" width={150} height={73} priority /></a>

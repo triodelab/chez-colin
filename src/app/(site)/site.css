@@ -15,7 +15,7 @@ svg { fill: none; height: 1.05em; stroke: currentColor; stroke-linecap: square; 
 /* Club-inspired hero */
 .club-hero { display: grid; grid-template-columns: minmax(340px, 40%) 1fr; height: 100svh; min-height: 720px; overflow: hidden; }
 .club-hero-image { min-height: 100%; position: relative; }
-.club-hero-image .cover { object-position: 22% center; }
+.club-hero-image .cover { object-position: 25% center; }
 .club-hero-content { background: #fff; display: grid; grid-template-rows: auto 1fr auto; min-width: 0; padding: 2.7vw 3.7vw 2.7vw 3.2vw; }
 .club-header { align-items: center; display: flex; justify-content: space-between; }
 .brand { background-color: var(--red); mask: url('/images/chez-colin-logo-white.png') center / contain no-repeat; display: inline-flex; line-height: 1; width: 9.4rem; }.brand img { opacity: 0; height: auto; object-fit: contain; width: 100%; }
@@ -65,7 +65,7 @@ svg { fill: none; height: 1.05em; stroke: currentColor; stroke-linecap: square; 
 
 @media (max-width: 900px) { .shell { padding-inline: 1.25rem; }.club-hero { grid-template-columns: minmax(0, 1fr); grid-template-rows: 35% 65%; height: calc(100svh + var(--safe-area-top)); margin-top: calc(-1 * var(--safe-area-top)); min-height: 0; }
 .club-hero-image { height: auto; min-height: 0; }
-.club-hero-image .cover { object-position: 22% 55%; }
+.club-hero-image .cover { object-position: 50% 45%; }
 .club-hero-content { min-height: 0; padding: clamp(.65rem, 1.8svh, 1.25rem) 1.25rem; }
 .brand { width: clamp(5rem, 10svh, 7rem); }
 .header-about { font-size: var(--body-size); min-height: 44px; padding: .5rem .75rem; }
