@@ -82,11 +82,40 @@
 }
 
 @media (max-width: 900px) {
-  .footer { padding-top: 3rem; }
-  .details { display: flex; flex-wrap: wrap; gap: 2rem clamp(1rem, 4vw, 2rem); min-height: 0; }
-  .details > div { flex: 1 1 10rem; }
-  .details > .primaryDetails { flex-basis: 100%; }
-  .logo { margin-top: 3rem; }
+  .footer {
+    overflow: hidden;
+    padding-block: 3.5rem max(3.5rem, calc(2rem + env(safe-area-inset-bottom, 0px)));
+  }
+
+  .details {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2.75rem;
+    min-height: 0;
+    text-align: center;
+  }
+
+  .details > div {
+    align-items: center;
+    flex: 0 0 auto;
+    gap: .85rem;
+    width: 100%;
+  }
+
+  .details > .primaryDetails { flex-basis: auto; }
+
+  .primaryDetails > span {
+    font-size: clamp(2.5rem, 11vw, 3.4rem);
+    max-width: 10ch;
+  }
+
+  .hoursLabel { margin-top: 1rem; }
+  .contactDetails { align-items: center; }
+  .booking { margin-top: .75rem; }
+
+  /* Desktop retains the oversized end mark; the compact mobile footer does not. */
+  .logo { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
