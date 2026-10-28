@@ -11,9 +11,9 @@ export function RestaurantLink({ children, className }: { children: ReactNode; c
 
     event.preventDefault()
     const animation = ScrollTrigger.getById('restaurant-depth')
-    // Desktop lands on the readable part of the pinned scene; mobile aligns the section exactly.
+    // Start at the blank first frame so the reveal begins when the section reaches the viewport.
     const top = animation
-      ? animation.start + (animation.end - animation.start) * .2
+      ? animation.start
       : section.getBoundingClientRect().top + window.scrollY
 
     section.focus({ preventScroll: true })

@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { Fragment, useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from '../app/(site)/experience.module.css'
@@ -23,7 +23,7 @@ const paragraphs = [
   'Chez Colin er en hyggelig, uformell fransk restaurant på Fredensborg.',
   'Vi tilbyr en variert klassisk meny, der alt er hjemmelaget av gode og sesongbaserte råvarer. Du vil også finne et innholdsrikt og spennende vinkart.',
   'Vi har i tillegg en uteservering der man kan ta seg et glass eller spise en full middag om man ønsker det.',
-].map(paragraph => paragraph.split(' '))
+]
 
 export function RestaurantExperience({ photoSources }: RestaurantExperienceProps) {
   const sectionRef = useRef<HTMLElement>(null)
@@ -50,25 +50,16 @@ export function RestaurantExperience({ photoSources }: RestaurantExperienceProps
     media.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
       const photos = gsap.utils.toArray<HTMLElement>('[data-restaurant-photo]', scene)
       const title = scene.querySelector('h2')
-      const text = scene.querySelectorAll(`.${styles.statement} span`)
+      const text = scene.querySelectorAll(`.${styles.statement} p`)
       const layers = photos.map(photo => photo.querySelector<HTMLElement>('[data-depth]'))
       const height = () => scene.offsetHeight
 
+      // The scene must be visually empty until its top reaches the viewport.
+      // Keeping the initial state at time zero avoids the partial, blurred state
+      // that appeared before the old nested timeline had begun.
       gsap.set(photos, { autoAlpha: 0, filter: 'blur(14px)', z: () => -height() * 3 })
       gsap.set(title, { autoAlpha: 0, y: 24 })
-      gsap.set(text, { autoAlpha: 0, filter: 'blur(8px)', yPercent: 50 })
-
-      // The reference uses 350vh of travel, a 20vh stagger, and focus halfway through each pass.
-      const photoTimeline = gsap.timeline({ paused: true, defaults: { ease: 'none', immediateRender: false } })
-      photos.forEach((photo, index) => {
-        const start = index * .2
-        photoTimeline
-          .fromTo(photo, { z: () => -height() * 3 }, { z: () => height() * .5, duration: 1 }, start)
-          .fromTo(photo, { autoAlpha: 0 }, { autoAlpha: 1, duration: .5 }, start)
-          .fromTo(photo, { filter: 'blur(14px)' }, { filter: 'blur(0px)', duration: .5 }, start)
-          .fromTo(photo, { filter: 'blur(0px)' }, { filter: 'blur(14px)', duration: .5 }, start + .5)
-          .fromTo(photo, { autoAlpha: 1 }, { autoAlpha: 0, duration: .18 }, start + .82)
-      })
+      gsap.set(text, { autoAlpha: 0, filter: 'blur(8px)', y: 20 })
 
       const timeline = gsap.timeline({
         defaults: { ease: 'none' },
@@ -77,25 +68,34 @@ export function RestaurantExperience({ photoSources }: RestaurantExperienceProps
           trigger: section,
           pin: scene,
           start: 'top top',
-          end: () => `+=${height() * .5}`,
-          scrub: 0.25,
-          anticipatePin: 1,
+          // A short 40vh scroll span keeps the reveal brisk while retaining
+          // the depth progression of the reference.
+          end: () => `+=${height() * .4}`,
+          scrub: 0.12,
           invalidateOnRefresh: true,
-          onRefresh: trigger => { photoTimeline.invalidate().time(.5 + trigger.progress * 1.5) },
         },
       })
 
-      timeline
-        .fromTo(photoTimeline, { time: .5 }, { time: 2, duration: 1.5 }, 0)
-        .fromTo(title, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: .16, ease: 'power2.out' }, .02)
-        .fromTo(text, { autoAlpha: 0, filter: 'blur(8px)', yPercent: 50 }, {
+      photos.forEach((photo, index) => {
+        timeline.to(photo, {
           autoAlpha: 1,
           filter: 'blur(0px)',
-          yPercent: 0,
-          duration: .12,
-          stagger: { amount: .1 },
+          z: () => height() * .08,
+          duration: .34,
           ease: 'power2.out',
-        }, .05)
+        }, .04 + index * .055)
+      })
+
+      timeline
+        .to(title, { autoAlpha: 1, y: 0, duration: .18, ease: 'power2.out' }, .1)
+        .to(text, {
+          autoAlpha: 1,
+          filter: 'blur(0px)',
+          y: 0,
+          duration: .18,
+          stagger: .055,
+          ease: 'power2.out',
+        }, .14)
 
       // Pointer movement uses a separate layer from the scroll transforms.
       const moveObjects = (event: PointerEvent) => {
@@ -144,13 +144,9 @@ export function RestaurantExperience({ photoSources }: RestaurantExperienceProps
         <div className={styles.copy}>
           <h2 id="restaurant-title" className={styles.heading}>Chez Colin</h2>
           <div className={styles.statement}>
-            {paragraphs.map((words, paragraphIndex) => (
+            {paragraphs.map((paragraph, paragraphIndex) => (
               <p key={paragraphIndex}>
-                {words.map((word, index) => (
-                  <Fragment key={`${word}-${index}`}>
-                    <span>{word}</span>{index < words.length - 1 ? ' ' : null}
-                  </Fragment>
-                ))}
+                {paragraph}
               </p>
             ))}
           </div>
