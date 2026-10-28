@@ -84,7 +84,8 @@
 @media (max-width: 900px) {
   .footer {
     overflow: hidden;
-    padding-block: 3.5rem max(3.5rem, calc(2rem + env(safe-area-inset-bottom, 0px)));
+    /* Keep the contact CTA close to the device inset without placing it under Safari's controls. */
+    padding-block: 3.5rem calc(.75rem + env(safe-area-inset-bottom, 0px));
   }
 
   .details {
