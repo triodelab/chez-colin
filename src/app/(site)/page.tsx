@@ -61,7 +61,7 @@ export default async function Home() {
           </header>
           <div className="club-hero-copy">
             <p className="club-eyebrow">Fredensborg, Oslo</p>
-            <h1>litt Paris.<br /><em>midt i Oslo.</em></h1>
+            <h1 className="section-heading">litt Paris.<br /><em>midt i Oslo.</em></h1>
             <a className="hero-booking" href={content.bookingUrl} target="_blank" rel="noreferrer">Bestill bord <ArrowIcon /></a>
           </div>
           <div className="club-hero-bottom">
@@ -84,7 +84,7 @@ export default async function Home() {
       <section className={`booking-moment ${bookingStyles.moment}`} aria-labelledby="booking-title">
         <div className={`shell ${bookingStyles.layout}`}>
           <div className={`booking-copy ${bookingStyles.copy}`}>
-            <h2 id="booking-title">Bestill en kveld<br /> hos oss.</h2>
+            <h2 className="section-heading" id="booking-title">Bestill en kveld<br /> hos oss.</h2>
             <div className={bookingStyles.seasonal}>
               <p>August, september og oktober holder vi åpen fra kl. 17.00 tirsdag t.o.m. søndag.</p>
               <p>Fra 1. november åpner vi kl. 16.00 og i desember holder vi i tillegg åpent de 3 siste mandagene før jul. 7., 14. og 21. desember.</p>
@@ -138,7 +138,7 @@ export default async function Home() {
         <div className={`shell ${footerStyles.content}`}>
           <div className={footerStyles.details} data-footer-details>
             <div className={footerStyles.primaryDetails}>
-              <span>Vises på Fredensborg</span>
+              <span className="section-heading">Vises på Fredensborg</span>
             </div>
             <div><span>Følg oss</span><a href="https://www.facebook.com/ChezColin" target="_blank" rel="noreferrer">Facebook</a><a href={content.giftCardUrl} target="_blank" rel="noreferrer">Gavekort</a><span className={footerStyles.hoursLabel}>Åpningstider</span><p>{content.openingHours}</p></div>
             <div className={footerStyles.contactDetails}><span>Kontakt</span><address>{content.address}</address><a href={`tel:${content.phone.replaceAll(' ', '')}`}>{content.phone}</a><a href={`mailto:${content.email}`}>{emailName}<wbr />@{emailDomain}</a><a className={footerStyles.booking} href={`mailto:${content.email}`}>Kontakt oss <ArrowIcon /></a></div>

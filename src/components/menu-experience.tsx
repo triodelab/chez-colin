@@ -63,7 +63,7 @@ export function MenuExperience({ giftCardUrl }: { giftCardUrl: string }) {
       <div className="menu-experience-shell shell">
         <div className="menu-intro">
           <div className="menu-intro-copy">
-            <h2 id="menu-title">Vår meny</h2>
+            <h2 className="section-heading" id="menu-title">Vår meny</h2>
             <p>Rett frem, gjennomført og alltid med rom for en god flaske vin.</p>
           </div>
           <a aria-label="Kjøp et gavekort til en fransk aften hos Chez Colin" className="menu-giftcard" href={giftCardUrl} rel="noreferrer" target="_blank">Kjøp gavekort <ArrowIcon /></a>

@@ -34,10 +34,6 @@
 .primaryDetails { align-self: start; }
 
 .primaryDetails > span {
-  font-size: clamp(2rem, 3.5vw, 4.5rem);
-  font-weight: 700;
-  letter-spacing: -.03em;
-  line-height: 1;
   max-width: min(100%, 12ch);
 }
 
@@ -107,7 +103,6 @@
   .details > .primaryDetails { flex-basis: auto; }
 
   .primaryDetails > span {
-    font-size: clamp(2.5rem, 11vw, 3.4rem);
     max-width: 10ch;
   }
 

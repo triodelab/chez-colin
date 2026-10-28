@@ -130,7 +130,7 @@ export function RestaurantExperience({ photoSources }: RestaurantExperienceProps
     <section id="restaurant" aria-labelledby="restaurant-title" className={styles.experience} ref={sectionRef} tabIndex={-1}>
       <div className={styles.scene} ref={sceneRef}>
         <div className={styles.copy}>
-          <h2 id="restaurant-title" className={styles.heading}>Chez Colin</h2>
+          <h2 id="restaurant-title" className={`${styles.heading} section-heading`}>Chez Colin</h2>
           <div className={styles.statement}>
             {paragraphs.map((paragraph, paragraphIndex) => (
               <p key={paragraphIndex}>

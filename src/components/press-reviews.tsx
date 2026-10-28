@@ -155,7 +155,7 @@ export function PressReviews() {
     <section className={`press-reviews ${styles.section}`} aria-labelledby="press-title">
       <div className="shell">
         <div className={styles.heading}>
-          <h2 id="press-title">Les anmeldelser:</h2>
+          <h2 className="section-heading" id="press-title">Les anmeldelser:</h2>
           <button
             aria-controls="press-track"
             aria-label={isPaused ? 'Spill av anmeldelser' : 'Sett anmeldelser på pause'}

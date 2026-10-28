@@ -89,7 +89,6 @@
   .moment:global(.booking-moment) { min-height: 0; padding-block: 0; }
   .layout { gap: 3rem; grid-template-columns: minmax(0, 1fr); }
   .copy { display: flex; flex-direction: column; height: calc(100svh - var(--mobile-reviews-height)); justify-content: center; padding-block: .75rem; text-align: center; }
-  .copy h2 { font-size: clamp(1.875rem, 6vw, 3.25rem); }
   .seasonal { margin: 1rem auto; }
   .copy .button { font-size: 1rem; gap: .35rem; padding: .4rem; width: clamp(88px, 12svh, 150px); }
   .copy .groupNote { margin: 1rem auto 0; }
@@ -102,7 +101,7 @@
 
 @media (max-width: 900px) and (max-height: 700px) {
   .copy { align-content: center; align-items: center; column-gap: .75rem; display: grid; grid-template-columns: 88px minmax(0, 1fr); row-gap: .75rem; }
-  .copy h2 { font-size: 1.75rem; grid-column: 1 / -1; }
+  .copy h2 { grid-column: 1 / -1; }
   .seasonal { grid-column: 1 / -1; margin: 0; }
   .copy .seasonal p { font-size: .96875rem; line-height: 1.4; }
   .copy .seasonal p + p { margin-top: .5rem; }
