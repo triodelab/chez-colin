@@ -134,17 +134,17 @@ export default async function Home() {
         </div>
       </section>
 
-      <footer className={`site-footer ${footerStyles.footer}`}>
-        <div className={`footer-content shell ${footerStyles.content}`}>
-          <div className={`footer-details ${footerStyles.details}`}>
+      <footer className={footerStyles.footer}>
+        <div className={`shell ${footerStyles.content}`}>
+          <div className={footerStyles.details} data-footer-details>
             <div className={footerStyles.primaryDetails}>
               <span>Vises på Fredensborg</span>
             </div>
             <div><span>Følg oss</span><a href="https://www.facebook.com/ChezColin" target="_blank" rel="noreferrer">Facebook</a><a href={content.giftCardUrl} target="_blank" rel="noreferrer">Gavekort</a><span className={footerStyles.hoursLabel}>Åpningstider</span><p>{content.openingHours}</p></div>
             <div className={footerStyles.contactDetails}><span>Kontakt</span><address>{content.address}</address><a href={`tel:${content.phone.replaceAll(' ', '')}`}>{content.phone}</a><a href={`mailto:${content.email}`}>{emailName}<wbr />@{emailDomain}</a><a className={footerStyles.booking} href={`mailto:${content.email}`}>Kontakt oss <ArrowIcon /></a></div>
           </div>
-          <div aria-label="Chez Colin" className={`footer-logo ${footerStyles.logo}`}>
-            <Image className={footerStyles.logoImage} src="/images/chez-colin-logo-white.png" alt="" width={1650} height={800} />
+          <div className={footerStyles.logo} data-footer-wordmark>
+            <Image className={footerStyles.logoImage} src="/images/chez-colin-logo-white.png" alt="Chez Colin" width={1650} height={335} />
           </div>
         </div>
       </footer>

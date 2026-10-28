@@ -1,70 +1,53 @@
 .footer {
   background: var(--footer);
   color: var(--white);
-  max-width: none;
-  overflow: hidden;
-  padding: 0 0 max(1.5rem, env(safe-area-inset-bottom));
+  padding-top: 4rem;
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+  width: 100%;
 }
 
-.contact {
-  background: transparent;
-  border-bottom: 1px solid rgba(248, 246, 240, .34);
-  color: var(--white);
-  padding-bottom: 4rem;
+.content { min-width: 0; }
+
+.details {
+  display: grid;
+  gap: 4rem;
+  grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(0, 1fr));
+  min-height: 250px;
 }
 
-.contact h2 { color: var(--white); }
-
-.contact address,
-.contact :global(.contact-details div) {
-  border-color: rgba(248, 246, 240, .34);
+.details > div {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--sans);
+  font-size: var(--small-size);
+  gap: .7rem;
+  letter-spacing: .04em;
+  max-width: 100%;
+  min-width: 0;
+  text-transform: uppercase;
 }
 
-.contact :global(.contact-lower) {
-  border-color: rgba(248, 246, 240, .34);
-}
+.details a,.details address { max-width: 100%; overflow-wrap: anywhere; }
+.details address { font-style: normal; line-height: 1.45; }
+.details p { margin: 0; }
 
-.contact :global(.button) {
-  background: var(--cream);
-  border-color: var(--white);
-  color: var(--red);
-}
-
-.contact :global(.button):hover {
-  background: transparent;
-  color: var(--white);
-}
-
-.content { padding-top: 4rem; }
-
-.details :global(div > span) { color: var(--white); }
-.details:global(.footer-details) { grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(0, 1fr)); }
-.details > div { max-width: 100%; min-width: 0; }
-.contactDetails a,.contactDetails address { max-width: 100%; overflow-wrap: anywhere; }
-
-.primaryDetails {
-  align-self: start;
-  justify-content: flex-start;
-}
+.primaryDetails { align-self: start; }
 
 .primaryDetails > span {
-  color: var(--white) !important;
-  font-family: var(--sans);
   font-size: clamp(2rem, 3.5vw, 4.5rem);
   font-weight: 700;
   letter-spacing: -.03em;
-  line-height: .86;
+  line-height: 1;
   max-width: min(100%, 12ch);
 }
 
 .hoursLabel { margin-top: 1.5rem; }
-
 .contactDetails { align-items: flex-start; }
 
 .booking {
   align-items: center;
-  background: #fff;
-  border: 1px solid #fff;
+  background: var(--white);
+  border: 1px solid var(--white);
   border-radius: 999px;
   color: var(--red);
   display: inline-flex;
@@ -77,35 +60,35 @@
   width: fit-content;
 }
 
-.booking:hover { background: var(--cream); border-color: var(--white); }
-.booking:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.booking:hover { background: var(--cream); }
+.booking:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; }
 
 .logo {
-  aspect-ratio: 1650 / 335;
   display: block;
-  height: auto;
+  line-height: 0;
   margin: clamp(5rem, 10vw, 10rem) 0 0;
-  max-width: none;
-  object-fit: contain;
-  overflow: hidden;
-  position: relative;
   width: 100%;
 }
 
 .logoImage {
+  aspect-ratio: 1650 / 335;
   display: block;
   height: auto;
-  left: 0;
-  position: absolute;
-  top: 0;
-  /* Show the complete name (source rows 274–584), with transparent space above and below. */
-  transform: translateY(-32.75%);
+  max-width: 100%;
+  object-fit: cover;
+  /* Crop to the name in the source image, inside the image's own layout box. */
+  object-position: center 56.344086%;
   width: 100%;
 }
 
 @media (max-width: 900px) {
-  .contact { padding-bottom: 3rem; }
-  .content { padding-top: 3rem; }
-  .details:global(.footer-details) { gap: 2rem clamp(1rem, 4vw, 2rem); grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .logo { margin-left: 0; margin-top: 3rem; width: 100%; }
+  .footer { padding-top: 3rem; }
+  .details { display: flex; flex-wrap: wrap; gap: 2rem clamp(1rem, 4vw, 2rem); min-height: 0; }
+  .details > div { flex: 1 1 10rem; }
+  .details > .primaryDetails { flex-basis: 100%; }
+  .logo { margin-top: 3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .booking { transition: none; }
 }
