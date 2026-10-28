@@ -49,53 +49,41 @@ export function RestaurantExperience({ photoSources }: RestaurantExperienceProps
 
     media.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
       const photos = gsap.utils.toArray<HTMLElement>('[data-restaurant-photo]', scene)
-      const title = scene.querySelector('h2')
-      const text = scene.querySelectorAll(`.${styles.statement} p`)
+      const copy = scene.querySelector(`.${styles.copy}`)
       const layers = photos.map(photo => photo.querySelector<HTMLElement>('[data-depth]'))
       const height = () => scene.offsetHeight
 
-      // The scene must be visually empty until its top reaches the viewport.
-      // Keeping the initial state at time zero avoids the partial, blurred state
-      // that appeared before the old nested timeline had begun.
       gsap.set(photos, { autoAlpha: 0, filter: 'blur(14px)', z: () => -height() * 3 })
-      gsap.set(title, { autoAlpha: 0, y: 24 })
-      gsap.set(text, { autoAlpha: 0, filter: 'blur(8px)', y: 20 })
+      gsap.set(copy, { autoAlpha: 0 })
 
       const timeline = gsap.timeline({
-        defaults: { ease: 'none' },
         scrollTrigger: {
           id: 'restaurant-depth',
           trigger: section,
-          pin: scene,
-          start: 'top top',
-          // A short 40vh scroll span keeps the reveal brisk while retaining
-          // the depth progression of the reference.
-          end: () => `+=${height() * .4}`,
-          scrub: 0.12,
+          start: 'top bottom',
+          end: () => `+=${Math.round(height() * 1.55)}`,
+          scrub: .15,
           invalidateOnRefresh: true,
         },
       })
 
       photos.forEach((photo, index) => {
+        const entrance = index * .2
+
+        // A continuous forward pass: distant blur -> focus -> foreground blur.
         timeline.to(photo, {
-          autoAlpha: 1,
-          filter: 'blur(0px)',
-          z: () => height() * .08,
-          duration: .34,
-          ease: 'power2.out',
-        }, .04 + index * .055)
+          z: () => height() * .5,
+          duration: 1,
+          ease: 'none',
+        }, entrance)
+          .to(photo, { autoAlpha: 1, duration: .3, ease: 'none' }, entrance)
+          .to(photo, { filter: 'blur(0px)', duration: .5, ease: 'none' }, entrance)
+          .to(photo, { filter: 'blur(14px)', duration: .5, ease: 'none' }, entrance + .5)
+          .to(photo, { autoAlpha: 0, duration: .2, ease: 'none' }, entrance + .8)
       })
 
-      timeline
-        .to(title, { autoAlpha: 1, y: 0, duration: .18, ease: 'power2.out' }, .1)
-        .to(text, {
-          autoAlpha: 1,
-          filter: 'blur(0px)',
-          y: 0,
-          duration: .18,
-          stagger: .055,
-          ease: 'power2.out',
-        }, .14)
+      // Reveal the complete text together, then keep it readable through exit.
+      timeline.to(copy, { autoAlpha: 1, duration: .35, ease: 'none' }, .65)
 
       // Pointer movement uses a separate layer from the scroll transforms.
       const moveObjects = (event: PointerEvent) => {
@@ -129,6 +117,8 @@ export function RestaurantExperience({ photoSources }: RestaurantExperienceProps
 
       return () => {
         active = false
+        timeline.scrollTrigger?.kill()
+        timeline.kill()
         scene.removeEventListener('pointermove', moveObjects)
         scene.removeEventListener('pointerleave', resetObjects)
         resetObjects()

@@ -1,7 +1,6 @@
 'use client'
 
 import type { MouseEvent, ReactNode } from 'react'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export function RestaurantLink({ children, className }: { children: ReactNode; className?: string }) {
   const scrollToRestaurant = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -10,11 +9,9 @@ export function RestaurantLink({ children, className }: { children: ReactNode; c
     if (!section) return
 
     event.preventDefault()
-    const animation = ScrollTrigger.getById('restaurant-depth')
-    // Start at the blank first frame so the reveal begins when the section reaches the viewport.
-    const top = animation
-      ? animation.start
-      : section.getBoundingClientRect().top + window.scrollY
+    // Bring the full section into view. Its own trigger starts the entrance
+    // animation at the viewport edge during ordinary scrolling.
+    const top = section.getBoundingClientRect().top + window.scrollY
 
     section.focus({ preventScroll: true })
     if (window.location.hash !== '#restaurant') window.history.pushState(null, '', '#restaurant')
