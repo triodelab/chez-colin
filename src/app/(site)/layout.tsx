@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 // Keeps Safari's browser chrome and the iPhone safe area aligned with the
 // burgundy footer when visitors reach the end of the page.
 export const viewport: Viewport = {
-  themeColor: '#902A5A',
+  themeColor: '#961208',
   viewportFit: 'cover',
 }
 
