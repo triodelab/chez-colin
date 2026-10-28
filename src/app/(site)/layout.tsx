@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Barlow_Condensed, Bitter } from 'next/font/google'
 import './site.css'
 
@@ -19,6 +19,13 @@ const barlowCondensed = Barlow_Condensed({
 export const metadata: Metadata = {
   title: 'Chez Colin — Fransk restaurant på Fredensborg',
   description: 'Fransk kjøkken, gode viner og lange kvelder på Fredensborg i Oslo.',
+}
+
+// Keeps Safari's browser chrome and the iPhone safe area aligned with the
+// burgundy footer when visitors reach the end of the page.
+export const viewport: Viewport = {
+  themeColor: '#902A5A',
+  viewportFit: 'cover',
 }
 
 export default function SiteLayout({ children }: Readonly<{ children: React.ReactNode }>) {
