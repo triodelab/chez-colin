@@ -53,7 +53,7 @@ export function RestaurantExperience({ photoSources }: RestaurantExperienceProps
       const layers = photos.map(photo => photo.querySelector<HTMLElement>('[data-depth]'))
       const height = () => scene.offsetHeight
 
-      gsap.set(photos, { autoAlpha: 0, filter: 'blur(14px)', z: () => -height() * 3 })
+      gsap.set(photos, { autoAlpha: 0, z: () => -height() * 3 })
       gsap.set(copy, { autoAlpha: 0 })
 
       const timeline = gsap.timeline({
@@ -70,15 +70,13 @@ export function RestaurantExperience({ photoSources }: RestaurantExperienceProps
       photos.forEach((photo, index) => {
         const entrance = index * .2
 
-        // A continuous forward pass: distant blur -> focus -> foreground blur.
+        // A continuous forward pass from the background to the foreground.
         timeline.to(photo, {
           z: () => height() * .5,
           duration: 1,
           ease: 'none',
         }, entrance)
           .to(photo, { autoAlpha: 1, duration: .3, ease: 'none' }, entrance)
-          .to(photo, { filter: 'blur(0px)', duration: .5, ease: 'none' }, entrance)
-          .to(photo, { filter: 'blur(14px)', duration: .5, ease: 'none' }, entrance + .5)
           .to(photo, { autoAlpha: 0, duration: .2, ease: 'none' }, entrance + .8)
       })
 

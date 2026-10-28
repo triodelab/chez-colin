@@ -43,6 +43,7 @@
   color: var(--red);
   justify-self: end;
   padding: 2rem;
+  scroll-margin-top: 1.5rem;
   text-align: left;
   width: min(100%, 34rem);
 }

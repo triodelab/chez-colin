@@ -68,7 +68,7 @@ export default async function Home() {
             <nav aria-label="Hovedmeny">
               <RestaurantLink><span>01</span> Restauranten</RestaurantLink>
               <a href="#meny"><span>02</span> Meny & vin</a>
-              <a href="#kontakt"><span>03</span> Kontakt</a>
+              <a href="#apningstider"><span>03</span> Kontakt</a>
             </nav>
             <div className="hero-hours"><span>{content.openingHours}</span><Image src="/images/kitchen.jpg" alt="Tartar på brød" width={170} height={120} /></div>
           </div>
@@ -93,7 +93,7 @@ export default async function Home() {
             <a className={`booking-button ${bookingStyles.button}`} href={content.bookingUrl} target="_blank" rel="noreferrer">Bestill bord <ArrowIcon /></a>
             <p className={bookingStyles.groupNote}>Hvis du ønsker bord for flere enn 7 personer gjelder en felles meny, send mail til <a href={`mailto:${content.email}`}>{content.email}</a></p>
           </div>
-          <section aria-labelledby="opening-hours-title" className={bookingStyles.hoursCard}>
+          <section id="apningstider" aria-labelledby="opening-hours-title" className={bookingStyles.hoursCard}>
             <header>
               <h3 id="opening-hours-title">Åpningstider</h3>
               <span lang="en">Opening hours</span>
