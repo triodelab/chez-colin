@@ -1,4 +1,4 @@
-:root { --cream: #f6f6f3; --paper: #fff; --white: #fff; --ink: var(--red); --red: #961208; --booking-blue: #ACC4E8; --dark: #3e2824; --footer: var(--red); --line: rgba(150,18,8,.22); --section-heading-size: clamp(3rem,5vw,6rem); --sans: var(--font-barlow-condensed), 'Arial Narrow', Arial, sans-serif; --serif: var(--font-bitter), Georgia, serif; --body-size: clamp(1.0625rem, 1.5vw, 1.2rem); --small-size: clamp(.9375rem, 1.15vw, 1rem); }
+:root { --cream: #f6f6f3; --paper: #fff; --white: #fff; --ink: var(--red); --red: #961208; --booking-blue: #ACC4E8; --dark: #3e2824; --footer: var(--red); --line: rgba(150,18,8,.22); --section-heading-size: clamp(3rem,5vw,6rem); --sans: var(--font-barlow-condensed), 'Arial Narrow', Arial, sans-serif; --serif: var(--font-bitter), Georgia, serif; --body-size: clamp(1.0625rem, 1.5vw, 1.2rem); --small-size: clamp(.9375rem, 1.15vw, 1rem); --safe-area-top: env(safe-area-inset-top, 0px); }
 * { box-sizing: border-box; }
 html { background: var(--footer); scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* Let the document's final paint layer extend the footer through iOS' bottom safe area. */
@@ -63,7 +63,7 @@ svg { fill: none; height: 1.05em; stroke: currentColor; stroke-linecap: square; 
 /* Dark pre-footer */
 .site-footer { background: var(--footer); color: var(--white); max-width: none; overflow: hidden; padding-bottom: 0; padding-top: 4rem; }.footer-details { display: grid; gap: 4rem; grid-template-columns: 1.5fr 1fr 1fr; min-height: 250px; }.footer-details div { display: flex; flex-direction: column; font-family: var(--sans); font-size: .64rem; gap: .7rem; letter-spacing: .04em; text-transform: uppercase; }.footer-details div > span { color: var(--white); }.footer-details address { font-style: normal; line-height: 1.45; }.footer-mark { height: auto; object-fit: contain; width: 9.4rem; }.footer-details p { margin: 0; }.footer-logo { color: var(--white); font-family: var(--sans); font-size: clamp(7rem,22vw,26rem); font-weight: 700; letter-spacing: -.15em; line-height: .62; margin: 5rem 0 -.06em -.07em; white-space: nowrap; }
 
-@media (max-width: 900px) { .shell { padding-inline: 1.25rem; }.club-hero { grid-template-columns: minmax(0, 1fr); grid-template-rows: 35% 65%; height: 100svh; min-height: 0; }
+@media (max-width: 900px) { .shell { padding-inline: 1.25rem; }.club-hero { grid-template-columns: minmax(0, 1fr); grid-template-rows: 35% 65%; height: calc(100svh + var(--safe-area-top)); margin-top: calc(-1 * var(--safe-area-top)); min-height: 0; }
 .club-hero-image { height: auto; min-height: 0; }
 .club-hero-image .cover { object-position: 22% 55%; }
 .club-hero-content { min-height: 0; padding: clamp(.65rem, 1.8svh, 1.25rem) 1.25rem; }
