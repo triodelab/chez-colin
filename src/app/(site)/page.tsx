@@ -108,7 +108,7 @@ export default async function Home() {
               <div className={bookingStyles.reviewLinks}>
                 <a
                   aria-label="Les anmeldelser av Chez Colin på Tripadvisor – 4,4 av 5"
-                  className={bookingStyles.reviewLink}
+                  className={`${bookingStyles.reviewLink} pressable`}
                   href="https://www.tripadvisor.com/Restaurant_Review-g190479-d8073605-Reviews-Chez_Colin-Oslo_Eastern_Norway.html"
                   rel="noreferrer"
                   target="_blank"
@@ -119,7 +119,7 @@ export default async function Home() {
                 </a>
                 <a
                   aria-label="Se Chez Colin og anmeldelser på Google Maps – 4,7 av 5"
-                  className={bookingStyles.reviewLink}
+                  className={`${bookingStyles.reviewLink} pressable`}
                   href="https://www.google.com/maps/search/?api=1&query=Chez+Colin%2C+Fredensborgveien+44%2C+Oslo"
                   rel="noreferrer"
                   target="_blank"
@@ -141,7 +141,7 @@ export default async function Home() {
               <span className="section-heading">Vises på Fredensborg</span>
             </div>
             <div><span>Følg oss</span><a href="https://www.facebook.com/ChezColin" target="_blank" rel="noreferrer">Facebook</a><a href={content.giftCardUrl} target="_blank" rel="noreferrer">Gavekort</a><span className={footerStyles.hoursLabel}>Åpningstider</span><p>{content.openingHours}</p></div>
-            <div className={footerStyles.contactDetails}><span>Kontakt</span><address>{content.address}</address><a href={`tel:${content.phone.replaceAll(' ', '')}`}>{content.phone}</a><a href={`mailto:${content.email}`}>{emailName}<wbr />@{emailDomain}</a><a className={footerStyles.booking} href={`mailto:${content.email}`}>Kontakt oss <ArrowIcon /></a></div>
+            <div className={footerStyles.contactDetails}><span>Kontakt</span><address>{content.address}</address><a href={`tel:${content.phone.replaceAll(' ', '')}`}>{content.phone}</a><a href={`mailto:${content.email}`}>{emailName}<wbr />@{emailDomain}</a><a className={`${footerStyles.booking} pressable`} href={`mailto:${content.email}`}>Kontakt oss <ArrowIcon /></a></div>
           </div>
           <div className={footerStyles.logo} data-footer-wordmark>
             <Image className={footerStyles.logoImage} src="/images/chez-colin-logo-white.png" alt="Chez Colin" width={1650} height={335} />

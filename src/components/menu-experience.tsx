@@ -3,7 +3,7 @@
 // @refresh reset
 // Remount this modal during code edits so Fast Refresh cannot reuse an older hook signature.
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type MouseEvent, type SyntheticEvent } from 'react'
 import Image from 'next/image'
 import { ArrowIcon } from './arrow-icon'
 import styles from './menu-zoom.module.css'
@@ -26,10 +26,59 @@ const menus = [
   },
 ]
 
+type Menu = (typeof menus)[number]
+
+function MenuPreview({ menu, instant, expanded = false }: { menu: Menu; instant: boolean; expanded?: boolean }) {
+  const [displayed, setDisplayed] = useState(menu)
+  const animationRef = useRef<Animation | null>(null)
+  const pending = displayed !== menu
+  const imageProps = expanded
+    ? { height: 1684, width: 1190, unoptimized: true }
+    : { height: 842, width: 595, sizes: '(max-width: 900px) 100vw, 600px' }
+
+  useLayoutEffect(() => () => {
+    if (animationRef.current) {
+      animationRef.current.onfinish = null
+      animationRef.current.cancel()
+      animationRef.current = null
+    }
+  }, [menu])
+
+  const reveal = (event: SyntheticEvent<HTMLImageElement>) => {
+    const image = event.currentTarget
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    // Keep the previous sheet visible until Next/Image has loaded and decoded the new one.
+    if (instant) {
+      setDisplayed(menu)
+      return
+    }
+    const animation = image.animate([{ opacity: 0 }, { opacity: 1 }], {
+      duration: reduced ? 80 : 140,
+      easing: 'cubic-bezier(.22, 1, .36, 1)',
+      fill: 'forwards',
+    })
+    animationRef.current = animation
+    animation.onfinish = () => {
+      animationRef.current = null
+      setDisplayed(menu)
+    }
+  }
+
+  return (
+    <span className={styles.imageFrame}>
+      <Image {...imageProps} alt={pending ? '' : `${menu.title} – første side`} aria-hidden={pending ? true : undefined} src={displayed.preview} />
+      {pending ? (
+        <Image {...imageProps} alt={`${menu.title} – første side`} className={styles.incoming} key={menu.preview} loading="eager" onLoad={reveal} src={menu.preview} />
+      ) : null}
+    </span>
+  )
+}
+
 export function MenuExperience({ giftCardUrl }: { giftCardUrl: string }) {
   const [selected, setSelected] = useState(0)
   const [isOpen, setIsOpen] = useState(false)
   const [isZoomed, setIsZoomed] = useState(false)
+  const [instant, setInstant] = useState(false)
   const dialogRef = useRef<HTMLDialogElement>(null)
   const viewportRef = useRef<HTMLDivElement>(null)
   const menu = menus[selected]
@@ -52,7 +101,13 @@ export function MenuExperience({ giftCardUrl }: { giftCardUrl: string }) {
     dialogRef.current?.showModal()
   }
 
-  const changeMenu = (direction: number) => {
+  const selectMenu = (index: number, event: MouseEvent<HTMLButtonElement>) => {
+    setInstant(event.detail === 0)
+    setSelected(index)
+  }
+
+  const changeMenu = (direction: number, event: MouseEvent<HTMLButtonElement>) => {
+    setInstant(event.detail === 0)
     setSelected(current => (current + direction + menus.length) % menus.length)
     setIsZoomed(false)
   }
@@ -79,14 +134,7 @@ export function MenuExperience({ giftCardUrl }: { giftCardUrl: string }) {
             type="button"
           >
             <span className="menu-paper-content menu-document" id="menu-content">
-              <Image
-                alt={`Første side av Chez Colins ${menu.title.toLowerCase()}`}
-                height={842}
-                key={menu.preview}
-                src={menu.preview}
-                sizes="(max-width: 900px) 100vw, 600px"
-                width={595}
-              />
+              <MenuPreview instant={instant} menu={menu} />
             </span>
           </button>
         </div>
@@ -96,7 +144,7 @@ export function MenuExperience({ giftCardUrl }: { giftCardUrl: string }) {
               aria-current={selected === index ? 'true' : undefined}
               className={selected === index ? 'active' : ''}
               key={item.title}
-              onClick={() => setSelected(index)}
+              onClick={event => selectMenu(index, event)}
               type="button"
             >
               {String(index + 1).padStart(2, '0')} {item.title}
@@ -116,20 +164,20 @@ export function MenuExperience({ giftCardUrl }: { giftCardUrl: string }) {
             <header className={styles.toolbar}>
               <h3 aria-atomic="true" aria-live="polite" id="menu-zoom-title">{menu.title}</h3>
               <div className={styles.actions}>
-                <a href={menu.document} rel="noreferrer" target="_blank">Åpne PDF <ArrowIcon /></a>
+                <a className="pressable" href={menu.document} rel="noreferrer" target="_blank">Åpne PDF <ArrowIcon /></a>
                 <button aria-pressed={isZoomed} className={styles.zoomControl} onClick={() => setIsZoomed(current => !current)} type="button">{isZoomed ? 'Tilpass' : 'Zoom inn'}</button>
                 <button autoFocus onClick={() => dialogRef.current?.close()} type="button">Lukk <span aria-hidden="true">×</span></button>
               </div>
             </header>
             <div className={styles.viewport} ref={viewportRef}>
               <div className={`${styles.page} ${isZoomed ? styles.zoomed : ''}`}>
-                <Image alt={`${menu.title} – første side`} height={1684} key={menu.preview} src={menu.preview} unoptimized width={1190} />
+                <MenuPreview expanded instant={instant} menu={menu} />
               </div>
             </div>
             <nav aria-label="Bla mellom menyer" className={styles.navigation}>
-              <button aria-label={`Forrige meny: ${menus[(selected - 1 + menus.length) % menus.length].title}`} onClick={() => changeMenu(-1)} type="button"><ArrowIcon direction="left" /> Forrige meny</button>
+              <button aria-label={`Forrige meny: ${menus[(selected - 1 + menus.length) % menus.length].title}`} onClick={event => changeMenu(-1, event)} type="button"><ArrowIcon direction="left" /> Forrige meny</button>
               <span aria-label={`Meny ${selected + 1} av ${menus.length}`}>{String(selected + 1).padStart(2, '0')} / {String(menus.length).padStart(2, '0')}</span>
-              <button aria-label={`Neste meny: ${menus[(selected + 1) % menus.length].title}`} onClick={() => changeMenu(1)} type="button">Neste meny <ArrowIcon direction="right" /></button>
+              <button aria-label={`Neste meny: ${menus[(selected + 1) % menus.length].title}`} onClick={event => changeMenu(1, event)} type="button">Neste meny <ArrowIcon direction="right" /></button>
             </nav>
           </div>
         ) : null}

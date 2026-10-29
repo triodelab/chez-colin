@@ -7,10 +7,11 @@
 .scene {
   background: #fff;
   display: grid;
-  height: 100svh;
+  min-height: 100svh;
   isolation: isolate;
   overflow: hidden;
   place-items: center;
+  padding-block: clamp(3rem, 8svh, 7rem);
   position: relative;
   width: 100%;
 }
@@ -20,6 +21,7 @@
   font-family: var(--serif);
   position: relative;
   text-align: center;
+  overflow-wrap: anywhere;
   width: min(50vw, 700px);
   z-index: 1;
 }
@@ -51,7 +53,7 @@
 
 .item {
   position: absolute;
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
 }
 
 .depthLayer {
@@ -117,7 +119,7 @@
 }
 
 @media (max-width: 900px) {
-  .scene { height: 100svh; }
+  .scene { min-height: 100svh; }
   .photoField { opacity: .65; }
   .copy { width: calc(100% - 3rem); }
   .heading { margin-bottom: 1.25rem; scroll-margin-top: 30svh; }

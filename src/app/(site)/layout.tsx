@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Barlow_Condensed, Bitter } from 'next/font/google'
+import { PressFeedback } from '@/components/press-feedback'
 import './site.css'
 
 const bitter = Bitter({
@@ -29,5 +30,5 @@ export const viewport: Viewport = {
 }
 
 export default function SiteLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html className={`${bitter.variable} ${barlowCondensed.variable}`} lang="no"><body>{children}</body></html>
+  return <html className={`${bitter.variable} ${barlowCondensed.variable}`} lang="no"><body>{children}<PressFeedback /></body></html>
 }

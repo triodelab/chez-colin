@@ -39,12 +39,17 @@ export function PressReviews() {
     let isVisible = false
     let isHovered = false
     let isFocused = false
-    let isKeyboardFocus = false
 
     const updatePlayback = () => {
-      if (!loop || isFocused) return
+      if (!loop) return
+      const shouldPause = pausedRef.current || isHovered || isFocused || !isVisible || document.hidden
+      if (!shouldPause && loop.timeScale() === 0) {
+        // Resume at the finger/keyboard's resting position, including after a full loop.
+        const offset = viewport.scrollLeft % distance
+        loop.progress(offset / distance)
+      }
       gsap.to(loop, {
-        timeScale: pausedRef.current || isHovered || !isVisible ? 0 : 1,
+        timeScale: shouldPause ? 0 : 1,
         duration: .6,
         ease: 'power2.out',
         overwrite: true,
@@ -53,26 +58,43 @@ export function PressReviews() {
     updatePlaybackRef.current = updatePlayback
 
     const createLoop = () => {
-      const progress = loop?.progress() ?? 0
+      const offset = distance ? viewport.scrollLeft % distance : viewport.scrollLeft
       if (loop) {
         gsap.killTweensOf(loop)
         loop.kill()
         loop = null
       }
-      gsap.set(track, { clearProps: 'transform' })
       if (reducedMotion.matches) return
 
       distance = group.getBoundingClientRect().width
       if (!distance) return
-      loop = gsap.to(track, {
-        x: -distance,
+      // Animate the native scroll position so touch scrolling and momentum stay browser-owned.
+      loop = gsap.fromTo(viewport, { scrollLeft: 0 }, {
+        scrollLeft: distance,
         duration: distance / 36,
         ease: 'none',
+        paused: true,
         repeat: -1,
       })
-      loop.progress(progress).timeScale(0)
-      if (isKeyboardFocus) loop.pause(0)
+      loop.progress((offset % distance) / distance).timeScale(0).play()
       updatePlayback()
+    }
+
+    const stopImmediately = () => {
+      if (!loop) return
+      gsap.killTweensOf(loop)
+      loop.timeScale(0)
+    }
+    const pauseForInteraction = () => {
+      pausedRef.current = true
+      stopImmediately()
+      setIsPaused(true)
+    }
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') pauseForInteraction()
+    }
+    const onWheel = (event: WheelEvent) => {
+      if (Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.shiftKey) pauseForInteraction()
     }
 
     const onPointerEnter = (event: PointerEvent) => {
@@ -87,32 +109,13 @@ export function PressReviews() {
     const onFocusIn = (event: FocusEvent) => {
       if (!(event.target instanceof HTMLElement)) return
       const keyboardFocus = event.target.matches(':focus-visible')
-      if (isFocused && (!keyboardFocus || isKeyboardFocus)) {
-        if (keyboardFocus) event.target.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' })
-        return
-      }
       isFocused = true
-      isKeyboardFocus = keyboardFocus
-      if (loop) {
-        gsap.killTweensOf(loop)
-        loop.timeScale(0)
-        if (keyboardFocus) {
-          loop.pause(0)
-          viewport.scrollLeft = 0
-        }
-      }
+      stopImmediately()
       if (keyboardFocus) event.target.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' })
     }
     const onFocusOut = (event: FocusEvent) => {
       if (event.relatedTarget instanceof Node && viewport.contains(event.relatedTarget)) return
       isFocused = false
-      if (loop && isKeyboardFocus) {
-        // Transfer native keyboard scrolling back into the loop without a visual jump.
-        const offset = viewport.scrollLeft
-        viewport.scrollLeft = 0
-        loop.progress((offset % distance) / distance).paused(false)
-      }
-      isKeyboardFocus = false
       updatePlayback()
     }
 
@@ -126,8 +129,11 @@ export function PressReviews() {
     reducedMotion.addEventListener('change', createLoop)
     viewport.addEventListener('pointerenter', onPointerEnter)
     viewport.addEventListener('pointerleave', onPointerLeave)
+    viewport.addEventListener('pointerdown', onPointerDown, { passive: true })
+    viewport.addEventListener('wheel', onWheel, { passive: true })
     viewport.addEventListener('focusin', onFocusIn)
     viewport.addEventListener('focusout', onFocusOut)
+    document.addEventListener('visibilitychange', updatePlayback)
 
     return () => {
       resizeObserver.disconnect()
@@ -135,13 +141,15 @@ export function PressReviews() {
       reducedMotion.removeEventListener('change', createLoop)
       viewport.removeEventListener('pointerenter', onPointerEnter)
       viewport.removeEventListener('pointerleave', onPointerLeave)
+      viewport.removeEventListener('pointerdown', onPointerDown)
+      viewport.removeEventListener('wheel', onWheel)
       viewport.removeEventListener('focusin', onFocusIn)
       viewport.removeEventListener('focusout', onFocusOut)
+      document.removeEventListener('visibilitychange', updatePlayback)
       if (loop) {
         gsap.killTweensOf(loop)
         loop.kill()
       }
-      gsap.set(track, { clearProps: 'transform' })
       updatePlaybackRef.current = () => {}
     }
   }, [])

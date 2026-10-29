@@ -56,7 +56,9 @@
   width: fit-content;
 }
 
-.booking:hover { background: var(--cream); }
+@media (hover: hover) and (pointer: fine) {
+  .booking:hover { background: var(--cream); }
+}
 .booking:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; }
 
 .logo {

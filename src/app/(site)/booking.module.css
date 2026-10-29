@@ -6,7 +6,7 @@
   width: 100%;
 }
 
-.copy { min-width: 0; text-align: left; width: 100%; }
+.copy { min-width: 0; overflow-wrap: anywhere; text-align: left; width: 100%; }
 .copy .button { display: flex; margin-inline: auto; }
 
 .seasonal {
@@ -42,6 +42,8 @@
   border: 1px solid var(--red);
   color: var(--red);
   justify-self: end;
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 2rem;
   scroll-margin-top: 1.5rem;
   text-align: left;
@@ -52,7 +54,7 @@
 .hoursCard h3 { font-family: var(--sans); font-size: 2.2rem; font-weight: 600; letter-spacing: 0; margin: 0 0 .5rem; }
 .hoursCard header span { font-family: var(--sans); font-size: var(--small-size); letter-spacing: .04em; text-transform: uppercase; }
 .hoursCard dl { margin: 1.5rem 0 2rem; }
-.hoursCard dl > div { display: flex; gap: 1rem; justify-content: space-between; }
+.hoursCard dl > div { display: flex; flex-wrap: wrap; gap: .5rem 1rem; justify-content: space-between; }
 .hoursCard dt,.hoursCard dd { font-family: var(--serif); font-size: var(--body-size); margin: 0; }
 .hoursCard .englishHours { margin-top: .65rem; }
 .hoursCard .englishHours dt,.hoursCard .englishHours dd { font-family: var(--sans); font-size: var(--small-size); }
@@ -71,24 +73,27 @@
   gap: .6rem .5rem;
   grid-template-columns: minmax(0, 1fr) auto;
   min-height: 48px;
+  min-width: 0;
   padding: .8rem .75rem;
   transition: background .2s, border-color .2s;
 }
 .reviewLink img { display: block; flex-shrink: 0; object-fit: contain; }
 .reviewLink svg { flex-shrink: 0; height: .9rem; width: .9rem; }
 .reviewBrand { align-items: center; display: flex; font-family: var(--sans); font-size: 1.1rem; gap: .5rem; justify-content: center; min-height: 20px; }
-.rating { align-items: center; display: flex; font-family: var(--sans); font-size: .95rem; gap: .45rem; grid-column: 1 / -1; justify-content: center; white-space: nowrap; }
-.stars { display: inline-block; font-size: .95rem; letter-spacing: .06em; line-height: 1; position: relative; }
+.rating { align-items: center; display: flex; flex-wrap: wrap; font-family: var(--sans); font-size: .95rem; gap: .45rem; grid-column: 1 / -1; justify-content: center; white-space: nowrap; }
+.stars { display: inline-block; flex-shrink: 0; font-size: min(.95rem, 5vw); letter-spacing: .06em; line-height: 1; position: relative; }
 .emptyStars { opacity: .2; }
 .filledStars { inset: 0 auto 0 0; overflow: hidden; position: absolute; white-space: nowrap; }
-.reviewLink:hover { background: #fff; border-color: var(--red); }
+@media (hover: hover) and (pointer: fine) {
+  .reviewLink:hover { background: #fff; border-color: var(--red); }
+}
 .reviewLink:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .reviewLink { transition: none; } }
 
 @media (max-width: 900px) {
   .moment:global(.booking-moment) { min-height: 0; padding-block: 0; }
   .layout { gap: 3rem; grid-template-columns: minmax(0, 1fr); }
-  .copy { display: flex; flex-direction: column; height: calc(100svh - var(--mobile-reviews-height)); justify-content: center; padding-block: .75rem; text-align: center; }
+  .copy { display: flex; flex-direction: column; min-height: calc(100svh - var(--mobile-reviews-height)); justify-content: center; padding-block: .75rem; text-align: center; }
   .seasonal { margin: 1rem auto; }
   .copy .button { font-size: 1rem; gap: .35rem; padding: .4rem; width: clamp(88px, 12svh, 150px); }
   .copy .groupNote { margin: 1rem auto 0; }

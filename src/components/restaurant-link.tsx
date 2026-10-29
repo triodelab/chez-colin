@@ -15,7 +15,8 @@ export function RestaurantLink({ children, className }: { children: ReactNode; c
 
     section.focus({ preventScroll: true })
     if (window.location.hash !== '#restaurant') window.history.pushState(null, '', '#restaurant')
-    window.scrollTo({ top, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })
+    const instant = event.detail === 0 || window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top, behavior: instant ? 'instant' : 'smooth' })
   }
 
   return <a className={className} href="#restaurant" onClick={scrollToRestaurant}>{children}</a>
